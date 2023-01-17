@@ -261,6 +261,9 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
     fname_lname = ''
     fname_lname_exist = None
     fname_lname_column = ''
+    fathername = ''
+    fathername_column = ''
+    fathername_exist = None
     course = course
     duration = duration
     date1 = start_date
@@ -282,6 +285,9 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
             # پیدا کردن شماره ستون عکس
             image_column = cell.column_letter
             print('img col found')
+        if cell.value == 'نام پدر':
+            fathername_column = cell.column_letter
+
     for row in range(2, ws.max_row + 1):
         # iterate all rows to max row anc checks the code melli column
         img_certificate_pil = Image.open(img_p)
@@ -294,6 +300,12 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
             codemelli = ws[f'{codemelli_column}{row}'].value
             codemelli_exist = True
             print('we have code', f'{codemelli_column}{row}')
+            print('------------')
+        if ws[f'{fathername_column}{row}'].value == None:
+            fathername_exist = False
+        else:
+            fathername = ws[f'{fathername_column}{row}'].value
+            print('we have father name at', f'{fathername_column}{row}')
             print('------------')
         if ws[f'{fname_lname_column}{row}'].value == None:
             fname_lname_exist = False
@@ -319,7 +331,7 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
             img_certificate_pil_duplicate.paste(img_person, (240, 220))
             img_certificate_pil_duplicate = ImageDraw.Draw(
                 img_certificate_pil_duplicate)
-            text = " آقای"+' '+str(fname_lname)+' '+"به شماره ملی"+' '+str(codemelli)+' ' + \
+            text = " آقای"+' '+str(fname_lname)+' '+"به شماره ملی"+' '+str(codemelli)+' ' + 'فرزند'+' '+str(fathername)+' '\
                 "در دوره آموزشی"+' '+course+" "+"که به مدت" + \
                 ' ' + duration+" "+"ساعت از تاریخ"
             text2 = ' ' + date1 + ' ' + 'تا تاریخ'+" "+date2+" " + \
