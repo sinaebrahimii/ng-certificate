@@ -267,7 +267,9 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
     course = course
     duration = duration
     date1 = start_date
+    date1_column = ''
     date2 = end_date
+    date1_exist = None
     cr_digit = ''
     i = 1
     for cell in ws[1]:
@@ -287,6 +289,8 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
             print('img col found')
         if cell.value == 'نام پدر':
             fathername_column = cell.column_letter
+        if cell.value == 'تاریخ برگزاری':
+            date1_column = cell.column_letter
 
     for row in range(2, ws.max_row + 1):
         # iterate all rows to max row anc checks the code melli column
@@ -306,6 +310,14 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
         else:
             fathername = ws[f'{fathername_column}{row}'].value
             print('we have father name at', f'{fathername_column}{row}')
+            # gets father name
+            print('------------')
+        if ws[f'{date1_column}{row}'].value == None:
+            date1_exist = False
+        else:
+            date1 = ws[f'{date1_column}{row}'].value
+            # gets date
+            print('we have date', f'{date1}{row}')
             print('------------')
         if ws[f'{fname_lname_column}{row}'].value == None:
             fname_lname_exist = False
@@ -331,10 +343,10 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
             img_certificate_pil_duplicate.paste(img_person, (240, 220))
             img_certificate_pil_duplicate = ImageDraw.Draw(
                 img_certificate_pil_duplicate)
-            text = " آقای"+' '+str(fname_lname)+' '+"به شماره ملی"+' '+str(codemelli)+' ' + 'فرزند'+' '+str(fathername)+' '\
+            text = " آقای"+' '+str(fname_lname)+' ' + 'فرزند'+' '+str(fathername) + ' '+"به شماره ملی"+' '+str(codemelli)+' '\
                 "در دوره آموزشی"+' '+course+" "+"که به مدت" + \
                 ' ' + duration+" "+"ساعت از تاریخ"
-            text2 = ' ' + date1 + ' ' + 'تا تاریخ'+" "+date2+" " + \
+            text2 = ' ' + date1 + ' ' + 'تا تاریخ'+" "+date1+" " + \
                 'براساس قرار داد منعقده و توسط این آموزشگاه برگزار شده است شرکت نموده اند' + \
                 '.'
             text = text+text2
@@ -342,10 +354,10 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
             text3 = "این گواهی صرفا به منزله حضور در دوره آموزشی بوده و مشمول مزایای گواهینامه های مهارت سازمان فنی و حرفه ای کشور نمی گردد"+'.'
 
             if i < 10:
-                cr_digit = make_date[2:4]+make_date[5:7] + \
+                cr_digit = date1[2:4]+date1[5:7] + \
                     str(course_digit)+'0'+str(i)
             else:
-                cr_digit = make_date[2:4]+make_date[5:7] + \
+                cr_digit = date1[2:4]+date1[5:7] + \
                     str(course_digit)+str(i)
 
             ctwrap_text = center_wrap(text, aptx=text3, cwidth=110)
@@ -357,7 +369,7 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
                 (1848, 438), make_date, font=myFont2, fill=(0, 0, 0), align='center')
             # کد دوره
             img_certificate_pil_duplicate.text(
-                (1895, 370), cr_digit, font=myFont3, fill=(0, 0, 0), align='center')
+                (1900, 370), cr_digit, font=myFont3, fill=(0, 0, 0), align='center')
             # متن اصلی
             img_certificate_pil_duplicate.text(
                 (230, 730), final_txt, font=myFont, fill=(0, 0, 0), align='right', stroke_width=1)
@@ -366,8 +378,8 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
             img_certificate_pil.save(f"{save_p}"+f"\{fname_lname}.pdf")
 
             # img_certificate_pil.show()
-            i += 1
-            # if i > 1
+            # i += 1
+            # if i > 1:
             #     break
 
 
