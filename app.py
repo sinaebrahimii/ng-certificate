@@ -22,11 +22,12 @@ import sys
 # ? ------------------------------
 # !add variables(images,fonts,excel)
 img_certificate_path = 'blankCertificate.jpg'
-font_path = 'B-NAZANIN.TTF'
+# font_path = "B-NAZANIN.TTF"
+myFont = ImageFont.truetype(".//B-NAZANIN.TTF", 49)
+myFont2 = ImageFont.truetype(".//B-NAZANIN.TTF", 38)
+myFont3 = ImageFont.truetype(".//B-NAZANIN.TTF", 33)
 excel_path = 'لیست نفرات سهند.xlsx'
-myFont = ImageFont.truetype(font_path, 49)
-myFont2 = ImageFont.truetype(font_path, 38)
-myFont3 = ImageFont.truetype(font_path, 33)
+
 #! adding images
 
 
@@ -194,6 +195,11 @@ class Ui_MainWindow(object):
         if img_path:
             self.input_6.setText(img_path[0])
             img_path = img_path[0]
+
+    def font_browse(self):
+        font_path = QFileDialog.getOpenFileName(
+            None, 'open file', '', 'All files(*);;TTF files(*.TTF);;')
+        return font_path
 
     def run(self):
         self.course = self.input_1.text()
@@ -375,10 +381,10 @@ def main_function(course, duration, start_date, end_date, make_date, course_digi
                 (230, 730), final_txt, font=myFont, fill=(0, 0, 0), align='right', stroke_width=1)
 
             # img_certificate_pil.save(f'img\\{fname_lname}.pdf')
-            img_certificate_pil.save(f"{save_p}"+f"\{fname_lname}.pdf")
+            img_certificate_pil.save(f"{save_p}" + f"\{fname_lname}.pdf")
 
             # img_certificate_pil.show()
-            # i += 1
+            i += 1
             # if i > 1:
             #     break
 
